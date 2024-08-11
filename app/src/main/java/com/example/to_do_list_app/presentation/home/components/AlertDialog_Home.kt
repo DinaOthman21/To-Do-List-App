@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,8 +43,8 @@ import kotlinx.coroutines.job
 
 @Composable
 fun AlertDialog_Home(
-    openDialog : Boolean ,
-    onClose :()-> Unit ,
+    openDialog: MutableState<Boolean>,
+    onClose:()-> Unit,
     mainViewModel: MainViewModel
 ){
     var text : String by remember { mutableStateOf("") }
@@ -54,7 +55,7 @@ fun AlertDialog_Home(
     val  focusRequester =FocusRequester()
     val context = LocalContext.current
 
-    if (openDialog){
+    if (openDialog.value){
      AlertDialog(
          title = {
              Text( text= "Todo" , fontFamily = FontFamily.Serif)
