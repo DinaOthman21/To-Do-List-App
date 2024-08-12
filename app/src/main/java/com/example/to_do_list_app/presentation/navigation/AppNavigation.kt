@@ -59,7 +59,7 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                     onBack = { navController.popBackStack() }
                 )
             } else {
-
+                navController.popBackStack()
             }
         }
     }

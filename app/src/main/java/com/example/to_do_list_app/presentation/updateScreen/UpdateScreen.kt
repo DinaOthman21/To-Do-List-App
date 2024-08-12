@@ -37,97 +37,94 @@ import com.example.to_do_list_app.presentation.common.topAppBarTextStyle
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateScreen(
-    id: Int,
-    mainViewModel: MainViewModel,
-    onBack: () -> Unit
-) {
-    LaunchedEffect(key1 = true) {
-        mainViewModel.getTodoById(id = id)
-    }
+    id : Int ,
+    mainViewModel: MainViewModel ,
+    onBack : () -> Unit
+){
+    val task =  mainViewModel.todo.task
+    val isImportant = mainViewModel.todo.isImportant
 
-    val todo = mainViewModel.todo
 
-    if (todo == null) {
-        Text("Loading...")
-    } else {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "Update Todos",
-                            style = topAppBarTextStyle
+    LaunchedEffect(
+        key1 = true ,
+        block = {
+            mainViewModel.getTodoById(id= id )
+        })
+
+    Scaffold (
+        topBar = {
+            TopAppBar( title = {
+                Text(
+                    text = "Update Todos" ,
+                    style = topAppBarTextStyle
+                )
+            } ,
+                navigationIcon = {
+                    IconButton(onClick = { onBack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = null
                         )
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = { onBack() }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = null
-                            )
-                        }
                     }
-                )
-            }
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                horizontalAlignment = Alignment.CenterHorizontally
+                })
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues) ,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Spacer(modifier = Modifier.size(16.dp))
+            Icon(
+                imageVector = Icons.Rounded.Edit,
+                contentDescription = null ,
+                modifier = Modifier.size(100.dp)
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            TextField(
+                value = task,
+                onValueChange ={ newValue ->
+                    mainViewModel.updateTask(newValue = newValue) } ,
+                modifier = Modifier.fillMaxWidth(.9f) ,
+                label = {
+                    Text(
+                        text = "Task" ,
+                        fontFamily = FontFamily.Monospace
+                    )
+                } ,
+                shape = RectangleShape ,
+                keyboardOptions = KeyboardOptions(KeyboardCapitalization.Sentences) ,
+                textStyle = taskTextStyle
+            )
+            Spacer(modifier = Modifier.size(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth() ,
+                horizontalArrangement = Arrangement.Center ,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Spacer(modifier = Modifier.size(16.dp))
-                Icon(
-                    imageVector = Icons.Rounded.Edit,
-                    contentDescription = null,
-                    modifier = Modifier.size(100.dp)
-                )
-                Spacer(modifier = Modifier.size(16.dp))
-                TextField(
-                    value = todo.task,
-                    onValueChange = { newValue ->
-                        mainViewModel.updateTask(newValue = newValue)
-                    },
-                    modifier = Modifier.fillMaxWidth(.9f),
-                    label = {
-                        Text(
-                            text = "Task",
-                            fontFamily = FontFamily.Monospace
-                        )
-                    },
-                    shape = RectangleShape,
-                    keyboardOptions = KeyboardOptions(KeyboardCapitalization.Sentences),
-                    textStyle = taskTextStyle
+                Text(
+                    text = "Important" ,
+                    fontFamily = FontFamily.Monospace ,
+                    fontSize = 18.sp
                 )
                 Spacer(modifier = Modifier.size(8.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Important",
-                        fontFamily = FontFamily.Monospace,
-                        fontSize = 18.sp
-                    )
-                    Spacer(modifier = Modifier.size(8.dp))
-                    Checkbox(
-                        checked = todo.isImportant,
-                        onCheckedChange = { newValue ->
-                            mainViewModel.updateIsImportant(newValue = newValue)
-                        }
-                    )
-                }
-                Spacer(modifier = Modifier.size(8.dp))
-                Button(onClick = {
-                    mainViewModel.updatedTodo(todo)
-                    onBack()
-                }) {
-                    Text(
-                        text = "Save ",
-                        fontSize = 16.sp
-                    )
-                }
+                Checkbox(
+                    checked = isImportant,
+                    onCheckedChange = { newValue ->
+                        mainViewModel.updateIsImportant(newValue = newValue)
+                    })
+            }
+            Spacer(modifier = Modifier.size(8.dp))
+            Button(onClick = {
+                mainViewModel.updatedTodo(mainViewModel.todo)
+                onBack()
+            }) {
+                Text(
+                    text = "Save " ,
+                    fontSize = 16.sp
+                )
             }
         }
     }
