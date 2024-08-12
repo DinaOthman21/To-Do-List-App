@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.to_do_list_app.domain.model.Todo
 import com.example.to_do_list_app.presentation.MainViewModel
+import com.example.to_do_list_app.presentation.common.taskTextStyle
 import com.example.to_do_list_app.presentation.common.toastMsg
 import kotlinx.coroutines.job
 
@@ -95,7 +96,8 @@ fun AlertDialog_Home(
                              Icon(imageVector = Icons.Rounded.Clear, contentDescription = null)
                              
                          }
-                     }
+                     } ,
+                     textStyle = taskTextStyle
                  )
                  Row(
                      modifier = Modifier.fillMaxWidth() ,
