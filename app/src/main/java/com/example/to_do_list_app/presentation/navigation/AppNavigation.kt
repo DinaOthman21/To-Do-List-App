@@ -14,9 +14,7 @@ import com.example.to_do_list_app.presentation.home.HomeScreen
 import com.example.to_do_list_app.presentation.updateScreen.UpdateScreen
 
 @Composable
-fun AppNavigation(
-    mainViewModel: MainViewModel
-){
+fun AppNavigation(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -24,46 +22,45 @@ fun AppNavigation(
     ) {
         composable(
             Screen.HomeScreen.route
-        ){
+        ) {
             HomeScreen(
-                mainViewModel = mainViewModel ,
+                mainViewModel = mainViewModel,
                 onUpdate = { id ->
                     navController.navigate(
                         route = "${Screen.UpdateScreen.route}/$id"
                     )
                 }
-                )
+            )
         }
 
         composable(
-            route = "${Screen.UpdateScreen.route}/{id}" ,
-            arguments = listOf(navArgument("id"){
-                type= NavType.IntType
-            }) ,
+            route = "${Screen.UpdateScreen.route}/{id}",
+            arguments = listOf(navArgument("id") {
+                type = NavType.IntType
+            }),
             enterTransition = {
-                slideInHorizontally (
-                    initialOffsetX = {-it} ,
+                slideInHorizontally(
+                    initialOffsetX = { -it },
                     animationSpec = tween(300)
-                    )
-            } ,
+                )
+            },
             exitTransition = {
-                slideOutHorizontally (
-                    targetOffsetX = {-it} ,
+                slideOutHorizontally(
+                    targetOffsetX = { -it },
                     animationSpec = tween(300)
                 )
             }
-        ){ navBackStackEntry ->
-            navBackStackEntry.arguments?.getInt("id").let {
+        ) { navBackStackEntry ->
+            val id = navBackStackEntry.arguments?.getInt("id")
+            if (id != null) {
                 UpdateScreen(
-                    id =id !! ,
-                    mainViewModel = mainViewModel ,
-                    onBack = {navController.popBackStack()}
+                    id = id,
+                    mainViewModel = mainViewModel,
+                    onBack = { navController.popBackStack() }
                 )
+            } else {
 
             }
-
         }
-
     }
-
 }
