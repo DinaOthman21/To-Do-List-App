@@ -41,7 +41,7 @@ fun HomeScreen(
     val todos by
     mainViewModel.getAllTodos.collectAsStateWithLifecycle(initialValue = emptyList())
 
-    var openDialog = rememberSaveable {
+    val openDialog = rememberSaveable {
         mutableStateOf(false)
     }
 

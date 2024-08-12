@@ -10,6 +10,7 @@ import com.example.to_do_list_app.presentation.navigation.AppNavigation
 import com.example.to_do_list_app.ui.theme.To_Do_List_AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -25,4 +26,5 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
